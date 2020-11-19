@@ -1,0 +1,8 @@
+.map {
+    background-color: whitesmoke;
+    min-height: 70vh;
+    min-width: 100vh;
+    margin: 5vh 10vh;
+    border-color: black;
+    border: 1px solid;
+}
