@@ -1,0 +1,7 @@
+.map {
+    min-height: 100vh;
+    min-width: 100vh;
+    margin: 3vh 10vh;
+    display: flex;
+    justify-content: center;
+}
