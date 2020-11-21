@@ -1,8 +1,6 @@
-.map {
-    background-color: whitesmoke;
-    min-height: 70vh;
-    min-width: 100vh;
-    margin: 5vh 10vh;
-    border-color: black;
-    border: 1px solid;
+body{
+    
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
 }
