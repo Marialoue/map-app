@@ -1,8 +1,8 @@
 // component for home
 
 import React from 'react';
-import Header from './header';
-import Map from './map';
+import Header from './Header';
+import Map from './Map';
 import './home.css';
 
 export default function Home() {

@@ -19,26 +19,24 @@ export default function Map() {
 
     // adding state for user location, where marker will show location
     const [userLocation, setUserLocation] = useState({
-        userLat: null,
-        userLong: null
+        latitude: null,
+        longitude: null
     })
 
     const handleClick = () => {
 
         navigator.geolocation.getCurrentPosition((position) => {
             setViewport({
-                ...viewport,
                 width: 1000,
                 height: 450,
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
                 zoom: 15
-            })
+            });
             setUserLocation({
-                ...userLocation,
-                userLat: position.coords.latitude,
-                userLong: position.coords.longitude
-            })
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            });
         })
     };
 
@@ -51,14 +49,17 @@ export default function Map() {
                     onViewportChange={nextViewport => setViewport(nextViewport)}
                     mapboxApiAccessToken={mapToken}
                 >
+                    {console.log('map lat: ', viewport.latitude, '\nmap long: ', viewport.longitude)}
+                    {console.log('user lat: ', userLocation.latitude, '\nuser long: ', userLocation.longitude)}
 
-                    {/* add ternary to display marker only when userLocation is set */}
                     <Marker
                         latitude={viewport.latitude}
                         longitude={viewport.longitude}
                     >
                         <PersonPinIcon />
                     </Marker>
+
+
                 </ReactMapGL>
             </div>
         </div>
