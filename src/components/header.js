@@ -1,17 +1,28 @@
 // header with search bar
 import './header.css';
 import React from 'react';
+import Algolia from 'algolia-places-react';
 
-export default function Header() {
+
+// autocomplete function
+const algoliaId = process.env.REACT_APP_ALGOLIA_ID;
+const algoliaApi = process.env.REACT_APP_ALGOLIA_API;
+
+
+function Header() {
 
     return (
         <div className="header">
-            <h2>map map map map</h2>
-            <input
-                type="text"
-                placeholder="search location" />
-            <button>go</button>
-            <button>find my location</button>
+            <h2>route finder</h2>
+            <Algolia
+                options={{
+                    appId: algoliaId,
+                    apiKey: algoliaApi,
+                    type: ['city', 'address']
+                }}
+            />
         </div>
     );
 }
+
+export default Header
