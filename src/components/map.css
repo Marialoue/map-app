@@ -1,7 +1,11 @@
 .map {
-    min-height: 100vh;
-    min-width: 100vh;
+    overflow: hidden;
     margin: 3vh 10vh;
-    display: flex;
     justify-content: center;
+    display: flex;
+}
+
+img {
+    width: 30px;
+    height: 30px;
 }
