@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ReactMapGL, { Marker } from 'react-map-gl';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
-import './map.css';
+import './Map.css';
 
 export default function Map() {
 
@@ -27,8 +27,7 @@ export default function Map() {
 
         navigator.geolocation.getCurrentPosition((position) => {
             setViewport({
-                width: 1000,
-                height: 450,
+                ...viewport,
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
                 zoom: 15
@@ -49,15 +48,14 @@ export default function Map() {
                     onViewportChange={nextViewport => setViewport(nextViewport)}
                     mapboxApiAccessToken={mapToken}
                 >
-                    {console.log('map lat: ', viewport.latitude, '\nmap long: ', viewport.longitude)}
-                    {console.log('user lat: ', userLocation.latitude, '\nuser long: ', userLocation.longitude)}
-
-                    <Marker
-                        latitude={viewport.latitude}
-                        longitude={viewport.longitude}
-                    >
-                        <PersonPinIcon />
-                    </Marker>
+                    {userLocation.latitude ? (
+                        <Marker
+                            latitude={userLocation.latitude}
+                            longitude={userLocation.longitude}
+                        >
+                            <PersonPinIcon />
+                        </Marker>) : (null)
+                    }
 
 
                 </ReactMapGL>
