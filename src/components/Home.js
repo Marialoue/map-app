@@ -1,9 +1,7 @@
-// component for home
-
 import React from 'react';
 import Header from './Header';
 import Map from './Map';
-import './home.css';
+import './Home.css';
 
 export default function Home() {
 
