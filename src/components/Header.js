@@ -6,7 +6,7 @@ const algoliaId = process.env.REACT_APP_ALGOLIA_ID;
 const algoliaApi = process.env.REACT_APP_ALGOLIA_API;
 
 
-function Header({setAddress}) {
+function Header({ setAddress }) {
 
     return (
         <div className="header">
@@ -27,7 +27,7 @@ function Header({setAddress}) {
                             addressLat: suggestion.latlng.lat,
                             addressLong: suggestion.latlng.lng
                         });
-                        console.log(`query: ${query}\n sugg name: ${suggestion.name}\n sugg value: ${suggestion.value}\n lat: ${suggestion.latlng.lat}\n long: ${suggestion.latlng.lng}\n`);
+                        console.log(`query: ${query}\n sugg value: ${suggestion.value}\n lat: ${suggestion.latlng.lat}\n long: ${suggestion.latlng.lng}\n`);
                     }}
 
                     onSuggestions={() => {
