@@ -7,8 +7,8 @@ export default function Home() {
 
     //  send address to map and setaddrees to header
     const [address, setAddress] = useState({
-        addressLat: 51.5085,
-        addressLong: -0.12574
+        addressLat: null ,
+        addressLong: null
     });
 
     return (
