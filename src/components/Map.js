@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactMapGL, { Marker } from 'react-map-gl';
+import ReactMapGL, { Marker, Layer } from 'react-map-gl';
 import PersonPinCircleRoundedIcon from '@material-ui/icons/PersonPinCircleRounded';
 import RoomRoundedIcon from '@material-ui/icons/RoomRounded';
 import Button from '@material-ui/core/Button';
@@ -17,17 +17,18 @@ export default function Map({ address }) {
     // for mapbox
     const mapToken = process.env.REACT_APP_TOKEN;
 
-    // for here api
-    const hereKey = process.env.REACT_APP_HERE_KEY;
 
-    /* TODO
-        add routing to map
-        also add polygon layer to map to demonstrate route
-    */
+    /* mapbox api info:
+        * returns coords in lng, lat format
+        * geometries parameter added to reqeust geojson data
+        * for even more detailed directions you may add 'steps=true' parameter
+        * duration is estimated travel time in seconds
+        * distance returns float in meters 
+        * profiles: driving-traffic, driving, walking, cycling
+     */
 
-    // options to be used in hereUrl
     const options = {
-        transport: 'car',
+        profile: 'driving',
         origin: {
             lat: userLocation.userLat,
             lng: userLocation.userLong
@@ -38,14 +39,14 @@ export default function Map({ address }) {
         },
     };
 
-    const hereUrl = `https://router.hereapi.com/v8/routes?transportMode=${options.transport}&origin=${options.origin.lat},${options.origin.lng}&destination=${options.destination.lat},${options.destination.lng}&apiKey=${hereKey}&return=summary,polyline,actions,instructions`
+    const mapboxUrl = `https://api.mapbox.com/directions/v5/mapbox/${options.profile}/${options.origin.lng},${options.origin.lat};${options.destination.lng},${options.destination.lat}?geometries=geojson&access_token=${mapToken}`
 
-    /*
-        &return=summary (optinally attribute showing duration, lenght, and baseDuration - returns summary of entire travel section incl pre- and post actions)
-        &return=travelSummary (returns summary only of travel portion i.e no pre- or post action)
-        &return=polyline (https://github.com/heremaps/flexible-polyline)
-        &apiKey=REACT_APP_HERE_KEY
-    */
+    const lineLayer = {
+        id: 'travel-line',
+        type: 'line',
+        source: '',
+        'source-layer': ''
+    };
 
     // defines an initial viewpoint - lat and long will change when user is changing map view
     const [viewport, setViewport] = useState({
@@ -57,13 +58,12 @@ export default function Map({ address }) {
     });
 
     const handleClick = () => {
-
         navigator.geolocation.getCurrentPosition((position) => {
             setViewport({
                 ...viewport,
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
-                zoom: 15
+                zoom: 14
             });
             setUserLocation({
                 userLat: position.coords.latitude,
@@ -72,10 +72,22 @@ export default function Map({ address }) {
         })
     };
 
+    const getUrlResponse = () => {
+        fetch(mapboxUrl)
+            .then(response => response.json())
+            .then(response => {
+                const coordsArr = response.routes[0].geometry.coordinates;
+                coordsArr.map((coordinates) => {
+                    const lng = coordinates[0];
+                    const lat = coordinates[1];
+                    return console.log(lat, lng);
+                });
+            });
+    };
+
     const handleSearch = () => {
         address &&
-            address.addressLat ? (fetch(hereUrl)
-                .then(response => response.json())
+            address.addressLat ? (getUrlResponse()
             ) : (
                 alert('oh no, you forgot to enter a destination')
             );
@@ -93,8 +105,10 @@ export default function Map({ address }) {
                     {...viewport}
                     onViewportChange={nextViewport => setViewport(nextViewport)}
                     mapboxApiAccessToken={mapToken}
-                    // mapStyle='mapbox://styles/mapbox/light-v9'
                 >
+                    <Layer {...lineLayer} />
+
+                    {/* put these markers in separate layer */}
                     {userLocation.userLat ? (
                         <Marker
                             latitude={userLocation.userLat}
