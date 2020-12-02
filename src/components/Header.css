@@ -1,8 +1,10 @@
 .header {
     margin: 5vh 5vh 0vh;
+    background-color: transparent;
+    z-index: 1;
 }
 
-button {
+/* button {
     border: 1px solid #ccc;
     border-radius: 5px;
     margin: 5px;
@@ -11,4 +13,4 @@ button {
 
 button:hover {
     background-color: rgb(192, 237, 246);
-}
+} */

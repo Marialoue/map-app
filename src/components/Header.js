@@ -10,7 +10,6 @@ function Header({ setAddress }) {
 
     return (
         <div className="header">
-            <h2>route finder</h2>
             <div>
                 <Algolia
                     placeholder='Where are you going?'
@@ -19,7 +18,7 @@ function Header({ setAddress }) {
                         apiKey: algoliaApi,
                         type: ['city', 'address'],
                         style: true, // change to false for customized style - not implemented
-                        aroundLatLngViaIP: true, // view suggestions closest to user via IP, true as default
+                        aroundLatLngViaIP: true // view suggestions closest to user via IP, true as default
                     }}
 
                     onChange={({ query, rawAnswer, suggestion, suggestionIndex }) => {
@@ -33,6 +32,13 @@ function Header({ setAddress }) {
                     onSuggestions={() => {
                         console.log('onSuggestions fired')
                     }}
+
+                    onClear={() => { 
+                        setAddress({
+                            addressLat: '',
+                            addressLong: ''
+                        });
+                        console.log('Search field and setAddress is cleared') }}
 
                     onLimit={(message) => {
                         console.log('The rate limit has been reached: ', message)
