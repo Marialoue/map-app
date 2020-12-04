@@ -5,16 +5,22 @@ import './Home.css';
 
 export default function Home() {
 
-    //  send address to map and setaddrees to header
+    //  address to be used in Map, and setaddrees in Header
     const [address, setAddress] = useState({
-        addressLat: null ,
+        addressLat: null,
         addressLong: null
     });
 
+    // add a theme to set light or dark theme 
+
     return (
         <div className="home">
-                <Header setAddress={setAddress}/>
-                <Map address={address}/>
+            <Header
+                setAddress={setAddress}
+            />
+            <Map
+                address={address}
+            />
         </div>
     );
 }

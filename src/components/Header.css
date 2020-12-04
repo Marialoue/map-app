@@ -1,9 +1,19 @@
 .header {
-    margin: 5vh 5vh 0vh;
+    width: 87vmax;
+    margin: 4vh 10vh 1vh;
     background-color: transparent;
-    z-index: 1;
+    float: left;
 }
 
+.address-field {
+    width: 40vmax;
+    float: left;
+}
+
+.nav-btn {
+    width: 40vmax;
+    float: right;
+}
 /* button {
     border: 1px solid #ccc;
     border-radius: 5px;

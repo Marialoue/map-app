@@ -1,6 +1,10 @@
-import './Header.css';
-import React, { useState } from 'react';
+import React from 'react';
 import Algolia from 'algolia-places-react';
+import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
+import './Header.css';
 
 const algoliaId = process.env.REACT_APP_ALGOLIA_ID;
 const algoliaApi = process.env.REACT_APP_ALGOLIA_API;
@@ -10,14 +14,13 @@ function Header({ setAddress }) {
 
     return (
         <div className="header">
-            <div>
+            <div className="address-field">
                 <Algolia
-                    placeholder='Where are you going?'
+                    placeholder='Where are you going to?'
                     options={{
                         appId: algoliaId,
                         apiKey: algoliaApi,
                         type: ['city', 'address'],
-                        style: true, // change to false for customized style - not implemented
                         aroundLatLngViaIP: true // view suggestions closest to user via IP, true as default
                     }}
 
@@ -26,19 +29,20 @@ function Header({ setAddress }) {
                             addressLat: suggestion.latlng.lat,
                             addressLong: suggestion.latlng.lng
                         });
-                        console.log(`query: ${query}\n sugg value: ${suggestion.value}\n lat: ${suggestion.latlng.lat}\n long: ${suggestion.latlng.lng}\n`);
+                        console.log(`query: ${query}\n value: ${suggestion.value}\n lat: ${suggestion.latlng.lat}\n long: ${suggestion.latlng.lng}\n`);
                     }}
 
                     onSuggestions={() => {
                         console.log('onSuggestions fired')
                     }}
 
-                    onClear={() => { 
+                    onClear={() => {
                         setAddress({
                             addressLat: '',
                             addressLong: ''
                         });
-                        console.log('Search field and setAddress is cleared') }}
+                        console.log('Search field and setAddress is cleared')
+                    }}
 
                     onLimit={(message) => {
                         console.log('The rate limit has been reached: ', message)
@@ -47,6 +51,22 @@ function Header({ setAddress }) {
                         console.log('There was a problem retriving this request: ', message)
                     }}
                 />
+
+            </div>
+
+            <div className="nav-btn">
+                {/* for later:
+                relocate buttons from map.js here */}
+
+                <FormControlLabel
+                    value='top'
+                    control={<Switch
+                        color='secondary'
+                    />}
+                    label='Dark mode'
+                    labelPlacement='top'
+                />
+
             </div>
         </div>
     );
