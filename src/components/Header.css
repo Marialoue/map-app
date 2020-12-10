@@ -5,15 +5,16 @@
     float: left;
 }
 
-.address-field {
+.address-field-left {
     width: 40vmax;
     float: left;
 }
 
-.nav-btn {
+.address-field-right {
     width: 40vmax;
     float: right;
 }
+
 /* button {
     border: 1px solid #ccc;
     border-radius: 5px;
