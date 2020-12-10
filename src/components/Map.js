@@ -24,7 +24,7 @@ export default function Map({ address }) {
         * for even more detailed directions you may add 'steps=true' parameter
         * duration is estimated travel time in seconds
         * distance returns float in meters 
-        * profiles: driving-traffic, driving, walking, cycling
+        * profiles: driving-traffic, driving (default), walking, cycling
      */
 
     const options = {
@@ -39,7 +39,7 @@ export default function Map({ address }) {
         },
     };
 
-    const mapboxUrl = `https://api.mapbox.com/directions/v5/mapbox/${options.profile}/${options.origin.lng},${options.origin.lat};${options.destination.lng},${options.destination.lat}?geometries=geojson&access_token=${mapToken}`
+    const mapboxUrl = `https://api.mapbox.com/directions/v5/mapbox/${options.profile}/${options.origin.lng},${options.origin.lat};${options.destination.lng},${options.destination.lat}?alternatives=true&geometries=geojson&access_token=${mapToken}`
 
     // defines an initial viewpoint - lat and long will change when user is changing map view
     const [viewport, setViewport] = useState({
@@ -78,29 +78,27 @@ export default function Map({ address }) {
     };
 
     const getUrlResponse = () => {
-        // if user has selected a suggestion /
+        // fetch url and save coords from first route in array
         fetch(mapboxUrl)
             .then(response => response.json())
             .then(response => {
                 const coordsArr = response.routes[0].geometry.coordinates;
-                coordsArr.map((coordinates) => {
-                    const lng = coordinates[0];
-                    const lat = coordinates[1];
-                    return console.log('lat: ', lat, 'lng: ', lng);
-                });
                 setPolylineCoords(coordsArr);
+                console.log('getUrlRes \nsetting coords: ', coordsArr, '\naddress: ', address) 
             });
     };
 
     const handleSearch = () => {
+        console.log(address)
         address &&
-            address.addressLat ? (getAllSearchData()
+            address.addressLat ? (getUrlResponse()
             ) : (
                 alert('oh no, you forgot to enter a destination')
             );
+        console.log('handleSearch \naddress lat: ', address.addressLat, '\ncoords: ', polylineCoords) 
     };
 
-    // istead of using two functions in ternary for handleSearch - this is what happend - fix it better ?
+    // istead of using two functions in ternary for handleSearch - this is what happend - can it be better ?
     const getAllSearchData = () => {
         getUrlResponse();
         gotoSearchedLocation();
@@ -116,14 +114,6 @@ export default function Map({ address }) {
             }
         }]
     };
-
-    const geojsonPoint = {
-        type: 'FeatureCollection',
-        features: [
-            { type: 'Feature', geometry: { type: 'Point', coordinates: [userLocation.userLong, userLocation.userLat] } }
-        ]
-    };
-
 
     return (
         <div>
@@ -141,20 +131,6 @@ export default function Map({ address }) {
                     <div style={{ position: 'absolute', right: 0 }}>
                         <NavigationControl />
                     </div>
-
-                    {/* showing pointLayer with circle if userLocation is set */}
-                    {userLocation.userLat ? (
-                        <Source id="pointLayer" type="geojson" data={geojsonPoint}>
-                            <Layer
-                                id="point"
-                                type="circle"
-                                paint={{
-                                    'circle-radius': 5,
-                                    'circle-color': 'rgba(3, 170, 238, 0.5)',
-                                }} />
-                        </Source>
-                    ) : (null)
-                    }
 
                     {/* showing polylineLayer when address is validated and btn (handleSearch) is clicked */}
                     {address.addressLat ? (
