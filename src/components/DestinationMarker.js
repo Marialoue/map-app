@@ -1,14 +1,14 @@
 import { Marker } from "react-map-gl";
 import RoomRoundedIcon from "@material-ui/icons/RoomRounded";
 
-const AddressMarker = ({ address }) => {
+const DestinationMarker = ({ destination }) => {
   return (
     <>
       {/* add destination marker when address is provided */}
-      {address.addressLat ? (
+      {destination.destLat ? (
         <Marker
-          latitude={address.addressLat}
-          longitude={address.addressLong}
+          latitude={destination.destLat}
+          longitude={adestination.destLng}
           offsetLeft={-20}
           offsetTop={-20}
         >
@@ -19,4 +19,4 @@ const AddressMarker = ({ address }) => {
   );
 };
 
-export default AddressMarker;
+export default DestinationMarker;
