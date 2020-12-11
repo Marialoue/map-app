@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import ReactMapGL, { FlyToInterpolator, NavigationControl } from "react-map-gl";
 import Button from "@material-ui/core/Button";
 import UserMarker from "./UserMarker";
+import OriginMarker from "./OriginMarker";
 import DestinationMarker from "./DestinationMarker";
 import GeoLayer from "./GeoLayer";
 import "./Map.css";
 
 export default function Map({
+  origin,
   destination,
   polylineCoords,
   setPolylineCoords,
@@ -36,8 +38,6 @@ export default function Map({
 
   // defines an initial viewpoint - lat and long will change when user is changing map view
   const [viewport, setViewport] = useState({
-    height: "84vh",
-    width: "100vw",
     latitude: 18.0767,
     longitude: -10.9782,
     zoom: 1.3,
@@ -111,6 +111,8 @@ export default function Map({
       <div className="map">
         <ReactMapGL
           {...viewport}
+          width="100vw"
+          height="100vh"
           onViewportChange={(nextViewport) => setViewport(nextViewport)}
           mapboxApiAccessToken={mapToken}
           mapStyle={"mapbox://styles/mapbox/light-v8"}
@@ -120,7 +122,9 @@ export default function Map({
           </div>
 
           <GeoLayer destination={destination} polylineCoords={polylineCoords} />
+
           <UserMarker userLocation={userLocation} />
+          <OriginMarker origin={origin} />
           <DestinationMarker destination={destination} />
         </ReactMapGL>
       </div>
