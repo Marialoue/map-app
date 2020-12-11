@@ -4,11 +4,19 @@ import Map from "./Map";
 import "./Home.css";
 
 export default function Home() {
-  //  address to be used in Map, and setAddrees in Header
-  const [address, setAddress] = useState({
-    addressLat: null,
-    addressLong: null,
+  //  destination to be used in Map, and setAddrees in Header
+  const [destination, setDestination] = useState({
+    destLat: null,
+    destLng: null,
   });
+  console.log(destination)
+
+  // origin, if user want to search from other location than userLocation
+  const [origin, setOrigin] = useState({
+    originLat: null,
+    originLng: null,
+  });
+  console.log(origin)
 
   // polylineCoords to be used in Map for geojson, setPolylineCoords in Header when
   const [polylineCoords, setPolylineCoords] = useState([0, 0]);
@@ -17,9 +25,14 @@ export default function Home() {
 
   return (
     <div className="home">
-      <Header setAddress={setAddress} setPolylineCoords={setPolylineCoords} />
+      <Header
+        setDestination={setDestination}
+        setOrigin={setOrigin}
+        setPolylineCoords={setPolylineCoords}
+      />
       <Map
-        address={address}
+        destination={destination}
+        origin={origin}
         setPolylineCoords={setPolylineCoords}
         polylineCoords={polylineCoords}
       />

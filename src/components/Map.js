@@ -10,7 +10,7 @@ import UserMarker from './UserMarker';
 import AddressMarker from './AddressMarker';
 import "./Map.css";
 
-export default function Map({ address, polylineCoords, setPolylineCoords }) {
+export default function Map({ destination, polylineCoords, setPolylineCoords }) {
   // adding state for user location, where marker will show location
   const [userLocation, setUserLocation] = useState({
     latitude: null,
@@ -27,8 +27,8 @@ export default function Map({ address, polylineCoords, setPolylineCoords }) {
       lng: userLocation.userLong,
     },
     destination: {
-      lat: address.addressLat,
-      lng: address.addressLong,
+      lat: destination.destLat,
+      lng: destination.destLng,
     },
   };
 
@@ -47,8 +47,8 @@ export default function Map({ address, polylineCoords, setPolylineCoords }) {
   const gotoSearchedLocation = () => {
     setViewport({
       ...viewport,
-      latitude: address.addressLat,
-      longitude: address.addressLong,
+      latitude: destination.destLat,
+      longitude: destination.destLng,
       zoom: 14,
       transitionDuration: 3000,
       transitionInterpolator: new FlyToInterpolator(),
@@ -81,18 +81,18 @@ export default function Map({ address, polylineCoords, setPolylineCoords }) {
           "getUrlRes \nsetting coords: ",
           coordsArr,
           "\naddress: ",
-          address
+          destination
         );
       });
   };
 
   const handleSearch = () => {
-    address && userLocation.userLat && address.addressLat
+    destination && userLocation.userLat && destination.destLat
       ? getAllSearchData()
       : alert("oh no, you forgot to enter a destination");
     console.log(
       "handleSearch \naddress lat: ",
-      address.addressLat,
+      destination.destLat,
       "\npolycoords: ",
       polylineCoords
     );
@@ -132,8 +132,8 @@ export default function Map({ address, polylineCoords, setPolylineCoords }) {
             <NavigationControl />
           </div>
 
-          {/* showing polylineLayer when address is validated and btn (handleSearch) is clicked */}
-          {address.addressLat ? (
+          {/* showing polylineLayer when destination is validated and btn (handleSearch) is clicked */}
+          {destination.destLat ? (
             <Source id="polylineLayer" type="geojson" data={geojsonLine}>
               <Layer
                 id="line"
@@ -151,7 +151,7 @@ export default function Map({ address, polylineCoords, setPolylineCoords }) {
           ) : null}
 
           <UserMarker userLocation={userLocation} />
-          <AddressMarker address={address} />
+          <AddressMarker destination={destination} />
         </ReactMapGL>
       </div>
     </div>
