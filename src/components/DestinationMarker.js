@@ -1,10 +1,10 @@
 import { Marker } from "react-map-gl";
 import RoomRoundedIcon from "@material-ui/icons/RoomRounded";
 
-const AddressMarker = ({ destination }) => {
+const DestinationMarker = ({ destination }) => {
   return (
     <>
-      {/* add destination marker when destination is provided */}
+      {/* add destination marker when address is provided */}
       {destination.destLat ? (
         <Marker
           latitude={destination.destLat}
@@ -19,4 +19,4 @@ const AddressMarker = ({ destination }) => {
   );
 };
 
-export default AddressMarker;
+export default DestinationMarker;
