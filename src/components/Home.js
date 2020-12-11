@@ -6,17 +6,17 @@ import "./Home.css";
 export default function Home() {
   //  destination to be used in Map, and setAddrees in Header
   const [destination, setDestination] = useState({
-    destLat: null,
-    destLng: null,
+    lat: null,
+    lng: null,
+    placeholder: "destination",
   });
-  console.log(destination)
 
   // origin, if user want to search from other location than userLocation
   const [origin, setOrigin] = useState({
-    originLat: null,
-    originLng: null,
+    lat: null,
+    lng: null,
+    planceholder: "origin",
   });
-  console.log(origin)
 
   // polylineCoords to be used in Map for geojson, setPolylineCoords in Header when
   const [polylineCoords, setPolylineCoords] = useState([0, 0]);

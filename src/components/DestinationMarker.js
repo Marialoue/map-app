@@ -5,10 +5,10 @@ const DestinationMarker = ({ destination }) => {
   return (
     <>
       {/* add destination marker when address is provided */}
-      {destination.destLat ? (
+      {destination.lat ? (
         <Marker
-          latitude={destination.destLat}
-          longitude={destination.destLng}
+          latitude={destination.lat}
+          longitude={destination.lng}
           offsetLeft={-20}
           offsetTop={-20}
         >

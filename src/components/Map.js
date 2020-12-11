@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import ReactMapGL, {
-  Source,
-  Layer,
-  FlyToInterpolator,
-  NavigationControl,
-} from "react-map-gl";
+import ReactMapGL, { FlyToInterpolator, NavigationControl } from "react-map-gl";
 import Button from "@material-ui/core/Button";
-import UserMarker from './UserMarker';
-import AddressMarker from './AddressMarker';
+import UserMarker from "./UserMarker";
+import DestinationMarker from "./DestinationMarker";
+import GeoLayer from "./GeoLayer";
 import "./Map.css";
 
-export default function Map({ destination, polylineCoords, setPolylineCoords }) {
+export default function Map({
+  destination,
+  polylineCoords,
+  setPolylineCoords,
+}) {
   // adding state for user location, where marker will show location
   const [userLocation, setUserLocation] = useState({
     latitude: null,
@@ -27,8 +27,8 @@ export default function Map({ destination, polylineCoords, setPolylineCoords }) 
       lng: userLocation.userLong,
     },
     destination: {
-      lat: destination.destLat,
-      lng: destination.destLng,
+      lat: destination.lat,
+      lng: destination.lng,
     },
   };
 
@@ -36,7 +36,7 @@ export default function Map({ destination, polylineCoords, setPolylineCoords }) 
 
   // defines an initial viewpoint - lat and long will change when user is changing map view
   const [viewport, setViewport] = useState({
-    height: "82vh",
+    height: "84vh",
     width: "100vw",
     latitude: 18.0767,
     longitude: -10.9782,
@@ -47,8 +47,8 @@ export default function Map({ destination, polylineCoords, setPolylineCoords }) 
   const gotoSearchedLocation = () => {
     setViewport({
       ...viewport,
-      latitude: destination.destLat,
-      longitude: destination.destLng,
+      latitude: destination.lat,
+      longitude: destination.lng,
       zoom: 14,
       transitionDuration: 3000,
       transitionInterpolator: new FlyToInterpolator(),
@@ -87,12 +87,12 @@ export default function Map({ destination, polylineCoords, setPolylineCoords }) 
   };
 
   const handleSearch = () => {
-    destination && userLocation.userLat && destination.destLat
+    destination && userLocation.userLat && destination.lat
       ? getAllSearchData()
       : alert("oh no, you forgot to enter a destination");
     console.log(
       "handleSearch \naddress lat: ",
-      destination.destLat,
+      destination.lat,
       "\npolycoords: ",
       polylineCoords
     );
@@ -101,19 +101,6 @@ export default function Map({ destination, polylineCoords, setPolylineCoords }) 
   const getAllSearchData = () => {
     getUrlResponse();
     gotoSearchedLocation();
-  };
-
-  const geojsonLine = {
-    type: "FeatureCollection",
-    features: [
-      {
-        type: "Feature",
-        geometry: {
-          type: "LineString",
-          coordinates: polylineCoords,
-        },
-      },
-    ],
   };
 
   return (
@@ -132,26 +119,9 @@ export default function Map({ destination, polylineCoords, setPolylineCoords }) 
             <NavigationControl />
           </div>
 
-          {/* showing polylineLayer when destination is validated and btn (handleSearch) is clicked */}
-          {destination.destLat ? (
-            <Source id="polylineLayer" type="geojson" data={geojsonLine}>
-              <Layer
-                id="line"
-                type="line"
-                layout={{
-                  "line-join": "round",
-                  "line-cap": "round",
-                }}
-                paint={{
-                  "line-color": "rgba(3, 170, 238, 0.5)",
-                  "line-width": 5,
-                }}
-              />
-            </Source>
-          ) : null}
-
+          <GeoLayer destination={destination} polylineCoords={polylineCoords} />
           <UserMarker userLocation={userLocation} />
-          <AddressMarker destination={destination} />
+          <DestinationMarker destination={destination} />
         </ReactMapGL>
       </div>
     </div>
