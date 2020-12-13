@@ -9,7 +9,7 @@ function Header({ setDestination, setPolylineCoords }) {
     <>
       <div className="header">
 
-        <div className="address-field-right">
+        <div className="address-field">
           <AlgoliaSearch
             setCoords={setDestination}
             setPolylineCoords={setPolylineCoords}

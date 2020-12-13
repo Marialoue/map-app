@@ -1,5 +1,9 @@
 .map {
-    overflow: hidden;
-    justify-content: center;
-    display: flex;
+  overflow: hidden;
+  position: absolute;
+}
+.MuiButtonBase-root {
+  display: flex;
+  float: left;
+  z-index: 1;
 }

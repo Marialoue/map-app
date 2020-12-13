@@ -103,6 +103,7 @@ export default function Map({
 
   return (
     <div>
+      {/* replace location btn with algolia useDevice / onLocate */}
       <Button onClick={handleClick}>Find my location</Button>
       <Button onClick={handleSearch}>Find route</Button>
 
@@ -119,11 +120,7 @@ export default function Map({
             <NavigationControl />
           </div>
 
-          <GeoLayer
-            destination={destination}
-            polylineCoords={polylineCoords}
-          />
-
+          <GeoLayer destination={destination} polylineCoords={polylineCoords} />
           <UserMarker userLocation={userLocation} />
           <DestinationMarker destination={destination} />
         </ReactMapGL>

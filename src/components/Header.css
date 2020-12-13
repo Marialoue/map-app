@@ -1,19 +1,15 @@
 .header {
-    width: 94vmax;
-    margin: 3vh 4vh 0vh;
+    width:auto;
+    margin: 3vh 4vh .5vh;
     background-color: transparent;
     float: left;
+    position: relative;
+    z-index: 2;
 }
 
-.address-field-left {
-    width: 40vmax;
+.address-field {
+    width: 50vmax;
     float: left;
-}
-
-.address-field-right {
-    width: 40vmax;
-    float: left;
-    margin-left: 1rem;
 }
 
 .theme{
