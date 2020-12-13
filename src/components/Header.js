@@ -4,13 +4,11 @@ import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import "./Header.css";
 
-function Header({ setDestination, setOrigin, setPolylineCoords }) {
+function Header({ setDestination, setPolylineCoords }) {
   return (
     <>
       <div className="header">
-        <div className="address-field-left">
-          <AlgoliaSearch setCoords={setOrigin} />
-        </div>
+
         <div className="address-field-right">
           <AlgoliaSearch
             setCoords={setDestination}

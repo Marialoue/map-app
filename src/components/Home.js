@@ -11,13 +11,6 @@ export default function Home() {
     placeholder: "destination",
   });
 
-  // origin, if user want to search from other location than userLocation
-  const [origin, setOrigin] = useState({
-    lat: null,
-    lng: null,
-    planceholder: "origin",
-  });
-
   // polylineCoords to be used in Map for geojson, setPolylineCoords in Header when
   const [polylineCoords, setPolylineCoords] = useState([0, 0]);
 
@@ -27,12 +20,10 @@ export default function Home() {
     <div className="home">
       <Header
         setDestination={setDestination}
-        setOrigin={setOrigin}
         setPolylineCoords={setPolylineCoords}
       />
       <Map
         destination={destination}
-        origin={origin}
         setPolylineCoords={setPolylineCoords}
         polylineCoords={polylineCoords}
       />

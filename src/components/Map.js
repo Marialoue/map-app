@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import ReactMapGL, { FlyToInterpolator, NavigationControl } from "react-map-gl";
 import Button from "@material-ui/core/Button";
 import UserMarker from "./UserMarker";
-import OriginMarker from "./OriginMarker";
 import DestinationMarker from "./DestinationMarker";
 import GeoLayer from "./GeoLayer";
 import "./Map.css";
 
 export default function Map({
-  origin,
   destination,
   polylineCoords,
   setPolylineCoords,
@@ -121,10 +119,12 @@ export default function Map({
             <NavigationControl />
           </div>
 
-          <GeoLayer destination={destination} polylineCoords={polylineCoords} />
+          <GeoLayer
+            destination={destination}
+            polylineCoords={polylineCoords}
+          />
 
           <UserMarker userLocation={userLocation} />
-          <OriginMarker origin={origin} />
           <DestinationMarker destination={destination} />
         </ReactMapGL>
       </div>
