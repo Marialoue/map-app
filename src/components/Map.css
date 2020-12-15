@@ -2,8 +2,10 @@
   overflow: hidden;
   position: absolute;
 }
+
 .MuiButtonBase-root {
-  display: flex;
-  float: left;
-  z-index: 1;
+  float: right;
+  top: 20px;
+  left: -12%;
+  z-index: 301;
 }
