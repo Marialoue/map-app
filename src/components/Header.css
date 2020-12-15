@@ -1,18 +1,22 @@
 .header {
-    width:auto;
-    margin: 3vh 4vh .5vh;
-    background-color: transparent;
-    float: left;
-    position: relative;
-    z-index: 2;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(#5b5b5b, 40%, transparent);
+  z-index: 201;
 }
 
 .address-field {
-    width: 50vmax;
-    float: left;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  position: fixed;
+  top: 20px;
 }
 
-.theme{
-    float: left;
-    margin-left: 1rem;
+.theme {
+  float: left;
+  margin-left: 1rem;
 }
