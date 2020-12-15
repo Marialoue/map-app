@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactMapGL, { FlyToInterpolator, NavigationControl } from "react-map-gl";
 import Button from "@material-ui/core/Button";
 import UserMarker from "./UserMarker";
@@ -7,15 +7,13 @@ import GeoLayer from "./GeoLayer";
 import "./Map.css";
 
 export default function Map({
+  viewport,
+  setViewport,
+  userLocation,
   destination,
   polylineCoords,
   setPolylineCoords,
 }) {
-  // adding state for user location, where marker will show location
-  const [userLocation, setUserLocation] = useState({
-    latitude: null,
-    longitude: null,
-  });
 
   // for mapbox
   const mapToken = process.env.REACT_APP_TOKEN;
@@ -34,14 +32,6 @@ export default function Map({
 
   const mapboxUrl = `https://api.mapbox.com/directions/v5/mapbox/${options.profile}/${options.origin.lng},${options.origin.lat};${options.destination.lng},${options.destination.lat}?alternatives=true&geometries=geojson&access_token=${mapToken}`;
 
-  // defines an initial viewpoint - lat and long will change when user is changing map view
-  const [viewport, setViewport] = useState({
-    latitude: 18.0767,
-    longitude: -10.9782,
-    zoom: 1.3,
-    pitch: 30,
-  });
-
   const gotoSearchedLocation = () => {
     setViewport({
       ...viewport,
@@ -50,21 +40,6 @@ export default function Map({
       zoom: 14,
       transitionDuration: 3000,
       transitionInterpolator: new FlyToInterpolator(),
-    });
-  };
-
-  const handleClick = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setViewport({
-        ...viewport,
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        zoom: 14,
-      });
-      setUserLocation({
-        userLat: position.coords.latitude,
-        userLong: position.coords.longitude,
-      });
     });
   };
 
@@ -104,7 +79,6 @@ export default function Map({
   return (
     <div>
       {/* replace location btn with algolia useDevice / onLocate */}
-      <Button onClick={handleClick}>Find my location</Button>
       <Button onClick={handleSearch}>Find route</Button>
 
       <div className="map">
