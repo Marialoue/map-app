@@ -3,7 +3,13 @@ import Algolia from "algolia-places-react";
 const algoliaId = process.env.REACT_APP_ALGOLIA_ID;
 const algoliaApi = process.env.REACT_APP_ALGOLIA_API;
 
-const AlgoliaSearch = ({ viewport, setViewport, setUserLocation, setCoords, setPolylineCoords }) => {
+const AlgoliaSearch = ({
+  viewport,
+  setViewport,
+  setUserLocation,
+  setCoords,
+  setPolylineCoords,
+}) => {
   return (
     <>
       <Algolia
@@ -14,30 +20,25 @@ const AlgoliaSearch = ({ viewport, setViewport, setUserLocation, setCoords, setP
           type: ["city", "address"],
           useDeviceLocation: false,
         }}
-       
         onLocate={() => {
-            navigator.geolocation.getCurrentPosition((position) => {
-              setViewport({
-                ...viewport,
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-                zoom: 14,
-              });
-              setUserLocation({
-                userLat: position.coords.latitude,
-                userLong: position.coords.longitude,
-              });
+          navigator.geolocation.getCurrentPosition((position) => {
+            setViewport({
+              ...viewport,
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              zoom: 14,
             });
-          }}
-        
+            setUserLocation({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+          });
+        }}
         onChange={({ query, rawAnswer, suggestion, suggestionIndex }) => {
           setCoords({
             lat: suggestion.latlng.lat,
             lng: suggestion.latlng.lng,
           });
-          console.log(
-            `value: ${suggestion.value}\n lat: ${suggestion.latlng.lat}\n long: ${suggestion.latlng.lng}\n`
-          );
         }}
         onClear={() => {
           setCoords({
@@ -45,7 +46,6 @@ const AlgoliaSearch = ({ viewport, setViewport, setUserLocation, setCoords, setP
             lng: "",
           });
           setPolylineCoords([0, 0]);
-          console.log(`Search field, setCoords and polylineCoords is cleared`);
         }}
         // error handling
         onLimit={(message) => {
