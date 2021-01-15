@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   height: 100px;
-  background: linear-gradient(#5b5b5b, 40%, transparent);
+  background: linear-gradient(#787878, 40%, transparent);
   z-index: 201;
 }
 
@@ -16,7 +16,18 @@
   top: 20px;
 }
 
-.theme {
+.menu {
+  position: fixed;
   float: left;
-  margin-left: 1rem;
+  top: 20px;
+  left: 7%;
+  z-index: 301;
+}
+
+/* adding options for dark mode */
+
+@media (prefers-color-scheme: dark) {
+  .header {
+    background: linear-gradient(black, 40%, transparent);
+  }
 }
