@@ -14,8 +14,8 @@ const DestinationMarker = ({ destination, isDarkMode }) => {
           offsetTop={-20}
         >
           {isDarkMode ? (
-            // <RoomRoundedIcon style={{ fill: "white" }} />
-            <img src={destinationIcon} alt="destination-icon" />
+            <RoomRoundedIcon style={{ fill: "white" }} />
+            // <img src={destinationIcon} alt="destination-icon" />
           ) : (
             <RoomRoundedIcon style={{ fill: "currentColor" }} />
           )}
