@@ -1,7 +1,8 @@
 import { Marker } from "react-map-gl";
 import RoomRoundedIcon from "@material-ui/icons/RoomRounded";
+import destinationIcon from "../icons/arrow-down.svg";
 
-const DestinationMarker = ({ destination }) => {
+const DestinationMarker = ({ destination, isDarkMode }) => {
   return (
     <>
       {/* add destination marker when address is provided */}
@@ -12,7 +13,12 @@ const DestinationMarker = ({ destination }) => {
           offsetLeft={-20}
           offsetTop={-20}
         >
-          <RoomRoundedIcon />
+          {isDarkMode ? (
+            // <RoomRoundedIcon style={{ fill: "white" }} />
+            <img src={destinationIcon} alt="destination-icon" />
+          ) : (
+            <RoomRoundedIcon style={{ fill: "currentColor" }} />
+          )}
         </Marker>
       ) : null}
     </>

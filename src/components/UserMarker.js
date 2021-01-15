@@ -1,22 +1,27 @@
 import { Marker } from "react-map-gl";
 import PersonPinCircleRoundedIcon from "@material-ui/icons/PersonPinCircleRounded";
 
-const UserMarker = ({ userLocation }) => {
+const UserMarker = ({ userLocation, isDarkMode }) => {
+    
   return (
     <>
       {/* add a marker to map when userLocation is provided */}
-      {userLocation.userLat ? (
+      {userLocation.lat ? (
         <Marker
-          latitude={userLocation.userLat}
-          longitude={userLocation.userLong}
-          offsetLeft={-20}
-          offsetTop={-20}
+          latitude={userLocation.lat}
+          longitude={userLocation.lng}
+          offsetLeft={0}
+          offsetTop={0}
         >
-          <PersonPinCircleRoundedIcon />
+          {isDarkMode ? (
+            <PersonPinCircleRoundedIcon style={{ fill: "white" }} />
+          ) : (
+            <PersonPinCircleRoundedIcon style={{ fill: "currentColor" }} />
+          )}
         </Marker>
       ) : null}
     </>
   );
 };
 
-export default UserMarker
+export default UserMarker;
