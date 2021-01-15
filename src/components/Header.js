@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { AlgoliaSearch } from "./AlgoliaSearch";
-import Switch from "@material-ui/core/Switch";
-// import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Button from "@material-ui/core/Button";
+import Signup from "./Signup";
 import "./Header.css";
+import "./Signup.css";
 
 function Header({
   viewport,
@@ -11,6 +12,12 @@ function Header({
   setDestination,
   setPolylineCoords,
 }) {
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal((prev) => !prev);
+  };
+
   return (
     <>
       <div className="header">
@@ -23,8 +30,11 @@ function Header({
             setPolylineCoords={setPolylineCoords}
           />
         </div>
-        <div className="theme">
-          <Switch></Switch>
+        <div className="menu">
+          <Button style={{ color: "white" }} onClick={openModal}>
+            Sign up
+          </Button>
+          <Signup showModal={showModal} setShowModal={setShowModal} />
         </div>
       </div>
     </>
