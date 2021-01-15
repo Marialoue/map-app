@@ -3,9 +3,10 @@
   position: absolute;
 }
 
-.MuiButtonBase-root {
+.route-btn {
+  position: fixed;
   float: right;
   top: 20px;
-  left: -12%;
+  right: 12%;
   z-index: 301;
 }

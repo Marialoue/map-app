@@ -1,5 +1,10 @@
-import React from "react";
-import ReactMapGL, { FlyToInterpolator, NavigationControl } from "react-map-gl";
+import React, { useState } from "react";
+import ReactMapGL, {
+  //   WebMercatorViewport,
+  //   LinearInterpolator,
+  FlyToInterpolator,
+  NavigationControl,
+} from "react-map-gl";
 import Button from "@material-ui/core/Button";
 import UserMarker from "./UserMarker";
 import DestinationMarker from "./DestinationMarker";
@@ -7,6 +12,7 @@ import GeoLayer from "./GeoLayer";
 import "./Map.css";
 
 export default function Map({
+  isDarkMode,
   viewport,
   setViewport,
   userLocation,
@@ -14,15 +20,15 @@ export default function Map({
   polylineCoords,
   setPolylineCoords,
 }) {
-
   // for mapbox
   const mapToken = process.env.REACT_APP_TOKEN;
 
+  const [travelTime, setTravelTime] = useState();
   const options = {
     profile: "driving",
     origin: {
-      lat: userLocation.userLat,
-      lng: userLocation.userLong,
+      lat: userLocation.lat,
+      lng: userLocation.lng,
     },
     destination: {
       lat: destination.lat,
@@ -50,36 +56,50 @@ export default function Map({
       .then((response) => {
         const coordsArr = response.routes[0].geometry.coordinates;
         setPolylineCoords(coordsArr);
-        console.log(
-          "getUrlRes \nsetting coords: ",
-          coordsArr,
-          "\naddress: ",
-          destination
-        );
+      });
+  };
+
+  // get duration and distance
+  // duration is response in seconds, convert to hours and min response / 3,600
+  const getDuration = () => {
+    fetch(mapboxUrl)
+      .then((response) => response.json())
+      .then((response) => {
+        const hours = response.routes[0].duration / 3600;
+        // const min = hours * 60;
+        setTravelTime(hours);
+        console.log(`traveltime: ${hours}`);
       });
   };
 
   const handleSearch = () => {
-    destination && userLocation.userLat && destination.lat
+    destination && userLocation.lat && destination.lat
       ? getAllSearchData()
-      : alert("oh no, you forgot to enter a destination");
-    console.log(
-      "handleSearch \naddress lat: ",
-      destination.lat,
-      "\npolycoords: ",
-      polylineCoords
-    );
+      : alert(
+          "Oh no, you for got to enter " +
+            (userLocation.lat ? "a destination" : "your location")
+        );
   };
 
   const getAllSearchData = () => {
     getUrlResponse();
     gotoSearchedLocation();
+    getDuration();
   };
 
   return (
     <div>
-      {/* replace location btn with algolia useDevice / onLocate */}
-      <Button onClick={handleSearch}>Find route</Button>
+        <div className="route-btn">
+      {isDarkMode ? (
+        <Button style={{ color: "white" }} onClick={handleSearch}>
+          Find route
+        </Button>
+      ) : (
+        <Button style={{ color: "currentColor" }} onClick={handleSearch}>
+          Find Route
+        </Button>
+      )}
+      </div>
 
       <div className="map">
         <ReactMapGL
@@ -88,15 +108,30 @@ export default function Map({
           height="100vh"
           onViewportChange={(nextViewport) => setViewport(nextViewport)}
           mapboxApiAccessToken={mapToken}
-          mapStyle={"mapbox://styles/mapbox/light-v8"}
+          mapStyle={"mapbox://styles/mapbox/dark-v9"}
         >
-          <div style={{ position: "absolute", right: 0 }}>
-            <NavigationControl />
+          <div
+            style={{
+              position: "absolute",
+              zIndex: 301,
+              top: 10,
+              right: 10,
+            }}
+          >
+            <NavigationControl showCompass={true} />
           </div>
 
-          <GeoLayer destination={destination} polylineCoords={polylineCoords} />
-          <UserMarker userLocation={userLocation} />
-          <DestinationMarker destination={destination} />
+          <GeoLayer
+            isDarkMode={isDarkMode}
+            destination={destination}
+            polylineCoords={polylineCoords}
+          />
+
+          <UserMarker isDarkMode={isDarkMode} userLocation={userLocation} />
+          <DestinationMarker
+            isDarkMode={isDarkMode}
+            destination={destination}
+          />
         </ReactMapGL>
       </div>
     </div>
