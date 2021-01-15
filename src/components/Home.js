@@ -13,25 +13,25 @@ export default function Home() {
   });
 
   const [userLocation, setUserLocation] = useState({
-    latitude: null,
-    longitude: null,
+    lat: null,
+    lng: null,
   });
 
   //  destination to be used in Map, and setAddrees in Header
   const [destination, setDestination] = useState({
     lat: null,
     lng: null,
-    placeholder: "destination",
   });
 
   // polylineCoords to be used in Map for geojson, setPolylineCoords in Header when
   const [polylineCoords, setPolylineCoords] = useState([0, 0]);
 
   // add a theme to set light or dark theme
-
+  const isDarkMode = true;
   return (
     <div className="home">
       <Header
+        isDarkMode={isDarkMode}
         userLocation={userLocation}
         setUserLocation={setUserLocation}
         viewport={viewport}
@@ -40,6 +40,7 @@ export default function Home() {
         setPolylineCoords={setPolylineCoords}
       />
       <Map
+        isDarkMode={isDarkMode}
         userLocation={userLocation}
         viewport={viewport}
         setViewport={setViewport}
