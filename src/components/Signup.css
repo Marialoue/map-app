@@ -1,0 +1,20 @@
+.form {
+  background: rgba(91, 88, 88, 0.34);
+  color: rgba(191, 191, 191, 0.8);
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 20%;
+  right: 25%;
+  width: 50%;
+  height: 65%;
+  border-radius: 8px;
+  z-index: 201;
+}
+
+.sign-up {
+  padding-top: 2rem;
+}
+
+hr {
+  width: 50%;
+}
