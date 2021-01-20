@@ -12,7 +12,8 @@ import GeoLayer from "./GeoLayer";
 import "./Map.css";
 
 export default function Map({
-  isDarkMode,
+  toggleTheme,
+  theme,
   viewport,
   setViewport,
   userLocation,
@@ -89,16 +90,10 @@ export default function Map({
 
   return (
     <div>
-        <div className="route-btn">
-      {isDarkMode ? (
-        <Button style={{ color: "white" }} onClick={handleSearch}>
+      <div className="route-btn">
+        <Button style={{ color: theme.color }} onClick={handleSearch}>
           Find route
         </Button>
-      ) : (
-        <Button style={{ color: "currentColor" }} onClick={handleSearch}>
-          Find Route
-        </Button>
-      )}
       </div>
 
       <div className="map">
@@ -108,30 +103,27 @@ export default function Map({
           height="100vh"
           onViewportChange={(nextViewport) => setViewport(nextViewport)}
           mapboxApiAccessToken={mapToken}
-          mapStyle={"mapbox://styles/mapbox/dark-v9"}
+          mapStyle={theme.mapStyle}
         >
-          <div
+          <div className="nav-ctrl" theme={theme}
             style={{
               position: "absolute",
               zIndex: 301,
               top: 10,
               right: 10,
+              color: theme.color
             }}
           >
             <NavigationControl showCompass={true} />
           </div>
 
           <GeoLayer
-            isDarkMode={isDarkMode}
             destination={destination}
             polylineCoords={polylineCoords}
+            theme={theme}
           />
-
-          <UserMarker isDarkMode={isDarkMode} userLocation={userLocation} />
-          <DestinationMarker
-            isDarkMode={isDarkMode}
-            destination={destination}
-          />
+          <UserMarker theme={theme} userLocation={userLocation} />
+          <DestinationMarker theme={theme} destination={destination} />
         </ReactMapGL>
       </div>
     </div>
