@@ -1,8 +1,7 @@
 import { Marker } from "react-map-gl";
 import PersonPinCircleRoundedIcon from "@material-ui/icons/PersonPinCircleRounded";
 
-const UserMarker = ({ userLocation, isDarkMode }) => {
-    
+const UserMarker = ({ userLocation, theme }) => {
   return (
     <>
       {/* add a marker to map when userLocation is provided */}
@@ -13,11 +12,7 @@ const UserMarker = ({ userLocation, isDarkMode }) => {
           offsetLeft={0}
           offsetTop={0}
         >
-          {isDarkMode ? (
-            <PersonPinCircleRoundedIcon style={{ fill: "white" }} />
-          ) : (
-            <PersonPinCircleRoundedIcon style={{ fill: "currentColor" }} />
-          )}
+          <PersonPinCircleRoundedIcon style={{ fill: theme.color }} />
         </Marker>
       ) : null}
     </>
