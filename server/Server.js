@@ -18,8 +18,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // connect to database
-const dbURL =
-  "mongodb+srv://node_user:vYfHNeIRqd8iqjpR@cluster0.05olj.mongodb.net/node?retryWrites=true&w=majority";
+const dbURL = process.env.REACT_APP_MONGODB;
+
 mongoose
   .connect(dbURL, {
     useNewUrlParser: true,
