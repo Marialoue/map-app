@@ -4,9 +4,13 @@ import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
 
+* {
+  box-sizing: border-box;
+}
+
 body {
     margin: 0;
-    mapStyle: ${({ theme }) => theme.mapStyle}; 
+    overflow: hidden;
     lineColor: ${({ theme }) => theme.lineClolor};
     color: ${({ theme }) => theme.color};
     transition: all 0.25s linear;
@@ -24,6 +28,14 @@ body {
     fill: ${({ theme }) => theme.fill};
     stroke: ${({ theme }) => theme.svgColor};
   }
+
+  .home{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+  }
   
   .map {
     overflow: hidden;
@@ -31,43 +43,38 @@ body {
     mapStyle: ${({ theme }) => theme.mapStyle};
   }
   
-  .route-btn {
-    color: ${({ theme }) => theme.color};
-    position: fixed;
-    float: right;
-    top: 20px;
-    right: 12%;
-    z-index: 301;
-  }
+  // .route-btn {
+  //   color: ${({ theme }) => theme.color};
+  //   position: fixed;
+  //   float: right;
+  //   top: 20px;
+  //   right: 12%;
+  //   z-index: 301;
+  // }
 
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
     background: ${({ theme }) => theme.background};
     z-index: 201;
+    height: 13vh;
+    padding: 1rem;
+    
   }
+
+  // div for menu, containing theme toggle and sign up buttons
+  .menu {
+
+  }  
 
 // div for algolia search field
   .address-field {
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50%;
-    position: fixed;
-    top: 20px;
-  }
-  
-// div for menu, containing theme toggle and sign up buttons
-  .menu {
-    color: ${({ theme }) => theme.color};
-    position: fixed;
+    position: relative;
+    z-index: inherit;
     float: left;
-    top: 20px;
-    left: 7%;
-    z-index: 301;
-  }  
+  }
 
 // text color for all buttons
   .MuiButton-root{

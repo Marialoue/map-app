@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { AlgoliaSearch } from "./AlgoliaSearch";
 import Button from "@material-ui/core/Button";
 import Signup from "./Signup";
-import "./Header.css";
 import "./Signup.css";
 import { ReactComponent as Sun } from "../icons/sun.svg";
 import { ReactComponent as Moon } from "../icons/moon.svg";
@@ -25,15 +24,6 @@ function Header({
   return (
     <>
       <div className="header">
-        <div className="address-field">
-          <AlgoliaSearch
-            setUserLocation={setUserLocation}
-            viewport={viewport}
-            setViewport={setViewport}
-            setCoords={setDestination}
-            setPolylineCoords={setPolylineCoords}
-          />
-        </div>
         <div className="menu">
           <Button onClick={toggleTheme}>
             {theme === "light" ? (
@@ -44,6 +34,15 @@ function Header({
           </Button>
           <Button onClick={openModal}>Sign up</Button>
           <Signup showModal={showModal} setShowModal={setShowModal} />
+        </div>
+        <div className="address-field">
+          <AlgoliaSearch
+            setUserLocation={setUserLocation}
+            viewport={viewport}
+            setViewport={setViewport}
+            setCoords={setDestination}
+            setPolylineCoords={setPolylineCoords}
+          />
         </div>
       </div>
     </>

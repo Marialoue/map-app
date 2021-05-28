@@ -1,18 +1,70 @@
-.form {
-  background: rgba(91, 88, 88, 0.34);
-  color: rgba(191, 191, 191, 0.8);
-  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2);
+.modal {
   position: fixed;
-  top: 20%;
-  right: 25%;
-  width: 50%;
-  height: 65%;
-  border-radius: 8px;
-  z-index: 201;
+  z-index: 301;
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%;
+  overflow: auto; 
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 25px;
+  overflow: hidden;
 }
 
-.sign-up {
-  padding-top: 2rem;
+.modal-form {
+  width: 55%;
+  height: 80%;
+  overflow: hidden;
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; 
+  border: 1px solid #888;
+  border-radius: 5px;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.modal-top {
+  text-align: center;
+  margin: auto;
+  padding: 12px;
+  position: relative;
+}
+.modal-top svg {
+  width: 30%;
+  padding: 10px;
+}
+
+.modal-content{
+  align-items: center;
+  text-align: left;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-bottom {
+  padding: 12px;
+}
+
+
+label, input {
+  padding: 5px;
+  float: left;
+  width: calc(100% - 250px);
+}
+
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
 }
 
 hr {
