@@ -1,5 +1,5 @@
 import { Marker } from "react-map-gl";
-import PersonPinCircleRoundedIcon from "@material-ui/icons/PersonPinCircleRounded";
+import PersonPinCircleRoundedIcon from '@mui/icons-material/PersonPinCircleRounded';
 
 const UserMarker = ({ userLocation, theme }) => {
   return (

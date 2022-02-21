@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { AlgoliaSearch } from "./AlgoliaSearch";
-import Button from "@material-ui/core/Button";
+import Button from '@mui/material/Button';
 import Signup from "./Signup";
 import "./Signup.css";
-import { ReactComponent as Sun } from "../icons/sun.svg";
-import { ReactComponent as Moon } from "../icons/moon.svg";
+import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
+import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 
 function Header({
   toggleTheme,
@@ -22,30 +21,18 @@ function Header({
   };
 
   return (
-    <>
-      <div className="header">
-        <div className="menu">
-          <Button onClick={toggleTheme}>
-            {theme === "light" ? (
-              <Moon onClick={toggleTheme} />
-            ) : (
-              <Sun onClick={toggleTheme} />
-            )}
-          </Button>
-          <Button onClick={openModal}>Sign up</Button>
-          <Signup showModal={showModal} setShowModal={setShowModal} />
-        </div>
-        <div className="address-field">
-          <AlgoliaSearch
-            setUserLocation={setUserLocation}
-            viewport={viewport}
-            setViewport={setViewport}
-            setCoords={setDestination}
-            setPolylineCoords={setPolylineCoords}
-          />
-        </div>
-      </div>
-    </>
+    <header className="header">
+      <Button onClick={toggleTheme}>
+        {theme === "light" ? (
+          <DarkModeRoundedIcon onClick={toggleTheme} />
+        ) : (
+          <WbSunnyRoundedIcon onClick={toggleTheme} />
+        )}
+      </Button>
+      <Button onClick={openModal}>Sign up</Button>
+      <Signup showModal={showModal} setShowModal={setShowModal} />
+
+    </header>
   );
 }
 

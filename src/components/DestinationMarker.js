@@ -1,6 +1,6 @@
 import { Marker } from "react-map-gl";
-import RoomRoundedIcon from "@material-ui/icons/RoomRounded";
-// import destinationIcon from "../icons/arrow-down.svg";
+import RoomRoundedIcon from '@mui/icons-material/RoomRounded';
+// import PinDropRoundedIcon from '@mui/icons-material/PinDropRounded';
 
 const DestinationMarker = ({ destination, theme }) => {
   return (

@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import ReactMapGL, {
-  //   WebMercatorViewport,
-  //   LinearInterpolator,
   FlyToInterpolator,
   NavigationControl,
 } from "react-map-gl";
-import Button from "@material-ui/core/Button";
+import Button from '@mui/material/Button';
 import UserMarker from "./UserMarker";
 import DestinationMarker from "./DestinationMarker";
 import GeoLayer from "./GeoLayer";
-import "./Map.css";
 
 export default function Map({
-  toggleTheme,
   theme,
   viewport,
   setViewport,
@@ -89,12 +85,10 @@ export default function Map({
   };
 
   return (
-    <div>
-      <div className="route-btn">
-        <Button style={{ color: theme.color }} onClick={handleSearch}>
-          Find route
-        </Button>
-      </div>
+    <>
+      <Button className="route-btn" onClick={handleSearch}>
+        Find route
+      </Button>
 
       <div className="map">
         <ReactMapGL
@@ -105,17 +99,9 @@ export default function Map({
           mapboxApiAccessToken={mapToken}
           mapStyle={theme.mapStyle}
         >
-          <div className="nav-ctrl" theme={theme}
-            style={{
-              position: "absolute",
-              zIndex: 301,
-              top: 10,
-              right: 10,
-              color: theme.color
-            }}
-          >
+          <span className="nav-ctrl">
             <NavigationControl showCompass={true} />
-          </div>
+          </span>
 
           <GeoLayer
             destination={destination}
@@ -126,6 +112,6 @@ export default function Map({
           <DestinationMarker theme={theme} destination={destination} />
         </ReactMapGL>
       </div>
-    </div>
+    </>
   );
 }
