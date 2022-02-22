@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import Header from "./Header";
 import Map from "./Map";
-import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./Themes";
 import { GlobalStyles } from "./GlobalStyles";
 
+import { ThemeProvider } from "styled-components";
+
 export default function Home() {
-  // add a theme to toggle between light or dark theme
   const [theme, setTheme] = useState("light");
 
   const toggleTheme = () => {
@@ -17,7 +17,6 @@ export default function Home() {
     }
   };
 
-  // initialize starting viewport for map
   const [viewport, setViewport] = useState({
     latitude: 18.0767,
     longitude: -10.9782,
@@ -25,13 +24,11 @@ export default function Home() {
     pitch: 30,
   });
 
-  // initialize user location with null
   const [userLocation, setUserLocation] = useState({
     lat: null,
     lng: null,
   });
 
-  //  destination to be used in Map, and setAddrees in Header
   const [destination, setDestination] = useState({
     lat: null,
     lng: null,
@@ -44,27 +41,20 @@ export default function Home() {
     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
       <GlobalStyles />
 
-      <div className="home">
-        <Header
-          toggleTheme={toggleTheme}
-          theme={theme}
-          userLocation={userLocation}
-          setUserLocation={setUserLocation}
-          viewport={viewport}
-          setViewport={setViewport}
-          setDestination={setDestination}
-          setPolylineCoords={setPolylineCoords}
-        />
+      <main className="main">
+        <Header toggleTheme={toggleTheme} theme={theme} />
         <Map
           theme={theme}
-          userLocation={userLocation}
           viewport={viewport}
           setViewport={setViewport}
+          userLocation={userLocation}
+          setUserLocation={setUserLocation}
           destination={destination}
-          setPolylineCoords={setPolylineCoords}
+          setDestination={setDestination}
           polylineCoords={polylineCoords}
+          setPolylineCoords={setPolylineCoords}
         />
-      </div>
+      </main>
     </ThemeProvider>
   );
 }

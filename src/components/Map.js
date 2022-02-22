@@ -1,24 +1,28 @@
-import React, { useState } from "react";
-import ReactMapGL, {
-  FlyToInterpolator,
-  NavigationControl,
-} from "react-map-gl";
-import Button from '@mui/material/Button';
+import React, { useState, useRef } from "react";
+import ReactMapGL, { FlyToInterpolator, NavigationControl } from "react-map-gl";
+
+import Geocoder from "react-map-gl-geocoder";
+import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+
+import Button from "@mui/material/Button";
+
+import GeoLayer from "./GeoLayer";
 import UserMarker from "./UserMarker";
 import DestinationMarker from "./DestinationMarker";
-import GeoLayer from "./GeoLayer";
 
 export default function Map({
   theme,
   viewport,
   setViewport,
   userLocation,
+  setUserLocation,
   destination,
+  setDestination,
   polylineCoords,
   setPolylineCoords,
 }) {
-  // for mapbox
   const mapToken = process.env.REACT_APP_TOKEN;
+  const mapRef = useRef();
 
   const [travelTime, setTravelTime] = useState();
   const options = {
@@ -34,6 +38,8 @@ export default function Map({
   };
 
   const mapboxUrl = `https://api.mapbox.com/directions/v5/mapbox/${options.profile}/${options.origin.lng},${options.origin.lat};${options.destination.lng},${options.destination.lat}?alternatives=true&geometries=geojson&access_token=${mapToken}`;
+  const mapboxSearch = `https://api.mapbox.com/geocoding/v5/mapbox.places/toronto.json?types=place%2Cpostcode%2Caddress&autocomplete=true&routing=true&access_token=${mapToken}`;
+  const mapboxDirections = `https://api.mapbox.com/directions/v5/mapbox/${options.profile}/${options.destination.lng},${options.destination.lat};${options.origin.lng},${options.origin.lat}?alternatives=true&geometries=geojson&access_token=${mapToken}`;
 
   const gotoSearchedLocation = () => {
     setViewport({
@@ -48,7 +54,7 @@ export default function Map({
 
   const getUrlResponse = () => {
     // fetch url and save coords from first route in array
-    fetch(mapboxUrl)
+    fetch(mapboxDirections)
       .then((response) => response.json())
       .then((response) => {
         const coordsArr = response.routes[0].geometry.coordinates;
@@ -84,21 +90,76 @@ export default function Map({
     getDuration();
   };
 
+  const handleViewportChange = (newViewport) => {
+    setViewport(newViewport);
+  };
+
+  const getUserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+          setViewport({
+            ...viewport,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            zoom: 14,
+            transitionDuration: 3000,
+            transitionInterpolator: new FlyToInterpolator(),
+          });
+        },
+        (error) => {
+          if (error) {
+            console.log(error);
+          }
+        }
+      );
+    }
+  };
+
+  const handleResult = (result) => {
+    console.log("setting destination");
+    setDestination({
+      lat: result.result.center[1],
+      lng: result.result.center[0],
+    });
+  };
+
   return (
     <>
-      <Button className="route-btn" onClick={handleSearch}>
-        Find route
-      </Button>
+      <span className="btn-group">
+        <Button onClick={handleSearch}>Find route</Button>
+        <Button onClick={getUserLocation}>Find user</Button>
+      </span>
 
       <div className="map">
         <ReactMapGL
           {...viewport}
+          ref={mapRef}
           width="100vw"
           height="100vh"
-          onViewportChange={(nextViewport) => setViewport(nextViewport)}
+          onViewportChange={handleViewportChange}
           mapboxApiAccessToken={mapToken}
           mapStyle={theme.mapStyle}
         >
+          <Geocoder
+            mapRef={mapRef}
+            mapboxApiAccessToken={mapToken}
+            placeholder="Where would you like to go?"
+            onResult={handleResult}
+            clearAndBlurOnEsc={true}
+            trackProximity={true}
+            onError={(message) => {
+              console.log(
+                "There was a problem retriving this request: ",
+                message
+              );
+            }}
+          />
+
           <span className="nav-ctrl">
             <NavigationControl showCompass={true} />
           </span>
