@@ -9,8 +9,8 @@ const UserMarker = ({ userLocation, theme }) => {
         <Marker
           latitude={userLocation.lat}
           longitude={userLocation.lng}
-          offsetLeft={0}
-          offsetTop={0}
+          offsetLeft={-20}
+          offsetTop={-20}
         >
           <PersonPinCircleRoundedIcon style={{ fill: theme.color }} />
         </Marker>
