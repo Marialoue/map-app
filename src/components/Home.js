@@ -4,6 +4,8 @@ import Map from "./Map";
 import { lightTheme, darkTheme } from "./Themes";
 import { GlobalStyles } from "./GlobalStyles";
 
+import { LocationProvider } from "../context/LocationContext";
+
 import { ThemeProvider } from "styled-components";
 
 export default function Home() {
@@ -17,22 +19,6 @@ export default function Home() {
     }
   };
 
-  const [viewport, setViewport] = useState({
-    latitude: 18.0767,
-    longitude: -10.9782,
-    zoom: 1.3,
-    pitch: 30,
-  });
-
-  const [userLocation, setUserLocation] = useState({
-    lat: null,
-    lng: null,
-  });
-
-  const [destination, setDestination] = useState({
-    lat: null,
-    lng: null,
-  });
 
   // polylineCoords to be used in Map for geojson, setPolylineCoords is used in Header when user has searched a destination
   const [polylineCoords, setPolylineCoords] = useState([0, 0]);
@@ -43,17 +29,13 @@ export default function Home() {
 
       <main className="main">
         <Header toggleTheme={toggleTheme} theme={theme} />
-        <Map
-          theme={theme}
-          viewport={viewport}
-          setViewport={setViewport}
-          userLocation={userLocation}
-          setUserLocation={setUserLocation}
-          destination={destination}
-          setDestination={setDestination}
-          polylineCoords={polylineCoords}
-          setPolylineCoords={setPolylineCoords}
-        />
+        <LocationProvider>
+          <Map
+            theme={theme}
+            polylineCoords={polylineCoords}
+            setPolylineCoords={setPolylineCoords}
+          />
+        </LocationProvider>
       </main>
     </ThemeProvider>
   );
