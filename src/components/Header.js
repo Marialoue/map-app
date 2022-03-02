@@ -1,29 +1,22 @@
-import React, { useState } from "react";
-import Button from "@mui/material/Button";
+import React, { useContext } from "react";
+
 import WbSunnyRoundedIcon from "@mui/icons-material/WbSunnyRounded";
 import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
 
-import Signup from "./Signup";
-import "./Signup.css";
+import { ThemeContext } from "../context/ThemeContext";
 
-function Header({ toggleTheme, theme }) {
-  const [showModal, setShowModal] = useState(false);
-
-  const openModal = () => {
-    setShowModal((prev) => !prev);
-  };
+function Header() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
     <header className="header">
-      <Button onClick={toggleTheme}>
-        {theme === "light" ? (
-          <DarkModeRoundedIcon onClick={toggleTheme} />
+      <button className="btn">
+        {theme === "dark" ? (
+          <WbSunnyRoundedIcon onClick={() => toggleTheme("light")} />
         ) : (
-          <WbSunnyRoundedIcon onClick={toggleTheme} />
+          <DarkModeRoundedIcon onClick={() => toggleTheme("dark")} />
         )}
-      </Button>
-      <Button onClick={openModal}>Sign up</Button>
-      <Signup showModal={showModal} setShowModal={setShowModal} />
+      </button>
     </header>
   );
 }
