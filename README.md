@@ -8,11 +8,12 @@ Users should be able to:
 - Search for a desired destination
 - Find the fastest route to that destination
 
+### Links
+
+- Live Site URL: [Map-app](https://fantastic-map.netlify.app/)
 
 ### Built with
 
-- Semantic HTML5 markup
-- CSS custom properties
 - [React](https://reactjs.org/) - JS library
 - [React-map-gl](https://visgl.github.io/react-map-gl/) - React wrapper for Mapbox map
 - [MapBox](https://www.mapbox.com/) - For map component
