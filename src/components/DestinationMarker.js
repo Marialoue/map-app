@@ -1,7 +1,7 @@
 import { Marker } from "react-map-gl";
 import RoomRoundedIcon from "@mui/icons-material/RoomRounded";
 
-const DestinationMarker = ({ destination, theme }) => {
+const DestinationMarker = ({ destination }) => {
   return (
     <>
       {destination.lat ? (
@@ -11,7 +11,7 @@ const DestinationMarker = ({ destination, theme }) => {
           offsetLeft={-20}
           offsetTop={-20}
         >
-          <RoomRoundedIcon style={{ fill: theme.color }} />
+          <RoomRoundedIcon />
         </Marker>
       ) : null}
     </>
