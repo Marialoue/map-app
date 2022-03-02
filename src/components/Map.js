@@ -4,8 +4,6 @@ import ReactMapGL, { FlyToInterpolator, NavigationControl } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
-import Button from "@mui/material/Button";
-
 import GeoLayer from "./GeoLayer";
 import UserMarker from "./UserMarker";
 import DestinationMarker from "./DestinationMarker";
@@ -14,11 +12,13 @@ import {
   DestinationContext,
   ViewportContext,
 } from "../context/LocationContext";
+import { ThemeContext } from "../context/ThemeContext";
 
-export default function Map({ theme, polylineCoords, setPolylineCoords }) {
+export default function Map({ polylineCoords, setPolylineCoords }) {
   const mapToken = process.env.REACT_APP_TOKEN;
   const mapRef = useRef();
 
+  const { theme, mapTiles } = useContext(ThemeContext);
   const { viewport, setViewport } = useContext(ViewportContext);
   const { userLocation, setUserLocation } = useContext(UserLocationContext);
   const { destination, setDestination } = useContext(DestinationContext);
@@ -36,11 +36,10 @@ export default function Map({ theme, polylineCoords, setPolylineCoords }) {
     },
   };
 
-  const mapboxSearch = `https://api.mapbox.com/geocoding/v5/mapbox.places/toronto.json?types=place%2Cpostcode%2Caddress&autocomplete=true&routing=true&access_token=${mapToken}`;
+  // const mapboxSearch = `https://api.mapbox.com/geocoding/v5/mapbox.places/toronto.json?types=place%2Cpostcode%2Caddress&autocomplete=true&routing=true&access_token=${mapToken}`;
   const mapboxDirections = `https://api.mapbox.com/directions/v5/mapbox/${options.profile}/${options.destination.lng},${options.destination.lat};${options.origin.lng},${options.origin.lat}?alternatives=true&geometries=geojson&access_token=${mapToken}`;
 
   const getUrlResponse = () => {
-    // fetch url and save coords from first route in array
     fetch(mapboxDirections)
       .then((response) => response.json())
       .then((response) => {
@@ -49,8 +48,6 @@ export default function Map({ theme, polylineCoords, setPolylineCoords }) {
       });
   };
 
-  // get duration and distance
-  // duration is response in seconds, convert to hours and min response / 3,600
   const getDuration = () => {
     fetch(mapboxDirections)
       .then((response) => response.json())
@@ -75,7 +72,7 @@ export default function Map({ theme, polylineCoords, setPolylineCoords }) {
       ...viewport,
       latitude: destination.lat,
       longitude: destination.lng,
-      zoom: 14,
+      zoom: 12,
       transitionDuration: 3000,
       transitionInterpolator: new FlyToInterpolator(),
     });
@@ -86,7 +83,6 @@ export default function Map({ theme, polylineCoords, setPolylineCoords }) {
     gotoSearchedLocation();
     getDuration();
   };
-
 
   const handleSearch = () => {
     destination && userLocation.lat && destination.lat
@@ -128,7 +124,6 @@ export default function Map({ theme, polylineCoords, setPolylineCoords }) {
   };
 
   const handleResult = (result) => {
-    console.log("setting destination");
     setDestination({
       lat: result.result.center[1],
       lng: result.result.center[0],
@@ -144,50 +139,47 @@ export default function Map({ theme, polylineCoords, setPolylineCoords }) {
   };
 
   return (
-    <>
-      <span className="btn-group">
-        <Button onClick={handleSearch}>Find route</Button>
-        <Button onClick={getUserLocation}>Find user</Button>
-      </span>
-
-      <div className="map">
-        <ReactMapGL
-          {...viewport}
-          ref={mapRef}
-          width="100vw"
-          height="100vh"
-          onViewportChange={handleViewportChange}
+    <main className="map">
+      <ReactMapGL
+        {...viewport}
+        ref={mapRef}
+        width="100vw"
+        height="100vh"
+        reuseMaps={true}
+        onViewportChange={handleViewportChange}
+        mapboxApiAccessToken={mapToken}
+        mapStyle={mapTiles[theme]}
+      >
+        <Geocoder
+          mapRef={mapRef}
           mapboxApiAccessToken={mapToken}
-          mapStyle={theme.mapStyle}
-        >
-          <Geocoder
-            mapRef={mapRef}
-            mapboxApiAccessToken={mapToken}
-            placeholder="Where would you like to go?"
-            onResult={handleResult}
-            clearAndBlurOnEsc={true}
-            trackProximity={true}
-            onError={(message) => {
-              console.log(
-                "There was a problem retriving this request: ",
-                message
-              );
-            }}
-          />
+          placeholder="Where would you like to go?"
+          onResult={handleResult}
+          clearAndBlurOnEsc={true}
+          trackProximity={true}
+          onError={(message) => {
+            console.log(
+              "There was a problem retriving this request: ",
+              message
+            );
+          }}
+        />
+        <span className="btn-group">
+          <button className="btn" onClick={handleSearch}>
+            Find route
+          </button>
+          <button className="btn" onClick={getUserLocation}>
+            Find user
+          </button>
+        </span>
+        <span className="nav-ctrl">
+          <NavigationControl showCompass={true} />
+        </span>
 
-          <span className="nav-ctrl">
-            <NavigationControl showCompass={true} />
-          </span>
-
-          <GeoLayer
-            destination={destination}
-            polylineCoords={polylineCoords}
-            theme={theme}
-          />
-          <UserMarker theme={theme} userLocation={userLocation} />
-          <DestinationMarker theme={theme} destination={destination} />
-        </ReactMapGL>
-      </div>
-    </>
+        <GeoLayer destination={destination} polylineCoords={polylineCoords} />
+        <UserMarker userLocation={userLocation} />
+        <DestinationMarker destination={destination} />
+      </ReactMapGL>
+    </main>
   );
 }
