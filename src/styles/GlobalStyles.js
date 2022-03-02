@@ -16,34 +16,54 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.header {
-  transition: color 400ms linear;
-  background: ${(props) => props.theme.background};
-  width: 100vw;
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  padding: 1rem;
-  z-index: 1;
+  --box-shadow: 0 1px 1px ${(props) => props.theme.boxShadowColor}, 
+  0 2px 2px ${(props) => props.theme.boxShadowColor}, 
+  0 4px 4px ${(props) => props.theme.boxShadowColor}, 
+  0 8px 8px ${(props) => props.theme.boxShadowColor};
+  
+  --box-shadow-soft: 0px 4px 6px -1px ${(props) => props.theme.boxShadowColor}, 
+  0px 2px 4px -1px ${(props) => props.theme.boxShadowColor};
+  transition: all 500ms linear;
 }
 
 .btn {
-  border: none;
-  background: white;
+  position: relative;
+  transition: all 600ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  text-transform: uppercase;
+  background: transparent;
+  color: ${(props) => props.theme.accent};
+  border: solid 1px ${(props) => props.theme.lightAccent};
   border-radius: 5px;
-  padding: 0.3rem;
-  margin: 0.3rem;
+  box-shadow: var(--box-shadow-soft);
+  padding: 0.6rem;
+  margin: 0 0.5rem;
+  cursor: pointer;
   svg {
-    fill: ${(props) => props.theme.svgColor};
+    fill: ${(props) => props.theme.accent};
   }
 }
 
-.map {
-  overflow: hidden;
+.btn:hover {
+  transform: scale(1.1,1.1);
+  background: ${(props) => props.theme.background};
+}
+
+.btn:hover::after {
+  opacity: 1;
+}
+
+.btn::after {
+  content: "";
+  border-radius: 5px;
   position: absolute;
-  mapStyle: ${(props) => props.theme.mapStyle};
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: var(--box-shadow);
+  transition: all .6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  opacity: 0;
+  z-index: -1;
 }
 
 .btn-group {
@@ -55,14 +75,19 @@ body {
   right: 5%;
 }
 
-.btn-group-btn {
-  border: none;
-  background: white;
-  border-radius: 20%;
-  padding: 0.3rem;
-  svg {
-    fill: ${(props) => props.theme.svgColor};
-  }
+.header {
+  background: ${(props) => props.theme.bgHeader};
+  width: 100vw;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  z-index: 1;
+}
+
+.map {
+  overflow: hidden;
+  position: absolute;
 }
 
 .nav-ctrl {
@@ -70,19 +95,22 @@ body {
   z-index: 2;
   top: 10px;
   right: 40px;
-  color: ${(props) => props.theme.color};
 }
 
 .mapboxgl-ctrl-geocoder {
   position: fixed;
   z-index: 3;
-  top: 0.5rem;
+  margin: 0;
+  top: 1%;
   width: calc(100vw/3);
   left: calc(100vw/3);
-  color:  ${(props) => props.theme.color};
 }
 
-
+.mapboxgl-marker {
+  svg {
+    fill: ${(props) => props.theme.accent};
+  }
+}
 `;
 
 const Theme = ({ children }) => {
