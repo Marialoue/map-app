@@ -8,7 +8,7 @@ export function LocationProvider({ children }) {
   const [viewport, setViewport] = useState({
     latitude: 18.0767,
     longitude: -10.9782,
-    zoom: 1.3,
+    zoom: 1.8,
     pitch: 30,
   });
 
